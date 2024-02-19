@@ -53,7 +53,7 @@ fn run(a: Allocator, texts: []const []const u8) !void {
     }
     const lapsed = timer.lap();
 
-    var sorted = try results.toOwnedSlice();
+    const sorted = try results.toOwnedSlice();
     std.sort.heap(Result, sorted, {}, sortByScore);
 
     std.log.warn("\npattern: {s} *** matched: {d}/{d} ** time: {d}ms\n-----------------", .{ pattern, sorted.len, texts.len, lapsed / 1_000_000 });

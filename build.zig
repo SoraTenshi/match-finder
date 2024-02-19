@@ -1,7 +1,7 @@
 const std = @import("std");
 const benchmark = @import("benchmark/build.zig");
 
-pub const pkg = std.build.Pkg{
+pub const pkg = std.Build.Pkg{
     .name = "matchfinder",
     .source = .{ .path = thisDir() ++ "/src/main.zig" },
 };
@@ -21,7 +21,7 @@ pub fn build(b: *std.Build) void {
     });
 
     const m = options.createModule();
-    lib.addModule("mf_options", m);
+    lib.root_module.addImport("mf_options", m);
 
     // benchmark
     var bench_exe = benchmark.package(b, optimize, target);
@@ -42,7 +42,7 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
-    main_tests.addModule("mf_options", m);
+    main_tests.root_module.addImport("mf_options", m);
 
     const run_main_tests = b.addRunArtifact(main_tests);
 

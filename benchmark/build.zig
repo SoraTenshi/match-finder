@@ -2,8 +2,8 @@ const std = @import("std");
 pub fn package(
     b: *std.Build,
     optimize: std.builtin.Mode,
-    target: std.zig.CrossTarget,
-) *std.build.CompileStep {
+    target: std.Build.ResolvedTarget,
+) *std.Build.Step.Compile {
     const benchmark = b.addExecutable(.{
         .name = "benchmark",
         .root_source_file = .{ .path = thisDir() ++ "/src/main.zig" },
@@ -12,9 +12,9 @@ pub fn package(
     });
 
     const m = b.createModule(.{
-        .source_file = .{ .path = "src/main.zig" },
+        .root_source_file = .{ .path = "src/main.zig" },
     });
-    benchmark.addModule("matchfinder", m);
+    benchmark.root_module.addImport("matchfinder", m);
 
     return benchmark;
 }

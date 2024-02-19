@@ -386,7 +386,7 @@ fn fuzzyMatch(text: []const u8, pattern: []const u8, is_case_sensitive: bool) ?S
 
             // calculate kill
             while (i > 0) : (i -= 1) {
-                var ti = text[i - 1];
+                const ti = text[i - 1];
                 if (inPathSepSet(ti)) break else score.kill(1);
             }
         }
@@ -494,7 +494,7 @@ test "fuzzy match" {
     }
     {
         const full_score = (Score{ ._full = true }).score();
-        var r = fuzzyMatch("foobar", "foo", cs);
+        const r = fuzzyMatch("foobar", "foo", cs);
         try expect(r.?.score() != full_score); // regression: making sure we don't just consider i==0 for full match
     }
 }

@@ -183,12 +183,12 @@ const Parser = struct {
         var lhs = try self.orExpr();
 
         while (self.matchAny(&.{Tag.and_op})) {
-            var l = try self.allocator.create(Expr);
+            const l = try self.allocator.create(Expr);
             errdefer self.allocator.destroy(l);
             l.* = lhs;
 
             const rhs = try self.orExpr();
-            var r = try self.allocator.create(Expr);
+            const r = try self.allocator.create(Expr);
             errdefer self.allocator.destroy(r);
             r.* = rhs;
 
@@ -202,12 +202,12 @@ const Parser = struct {
         var lhs = self.pattern();
 
         while (self.matchAny(&.{Tag.or_op})) {
-            var l = try self.allocator.create(Expr);
+            const l = try self.allocator.create(Expr);
             errdefer self.allocator.destroy(l);
             l.* = lhs;
 
             const rhs = self.pattern();
-            var r = try self.allocator.create(Expr);
+            const r = try self.allocator.create(Expr);
             errdefer self.allocator.destroy(r);
             r.* = rhs;
 
@@ -520,7 +520,7 @@ const Scanner = struct {
 
     test "Scanner" {
         const a = testing.allocator;
-        var buf = try a.alloc(u8, 1024);
+        const buf = try a.alloc(u8, 1024);
         defer a.free(buf);
         {
             const term = "";
@@ -589,7 +589,7 @@ const Scanner = struct {
     }
     test "Scanner escape" {
         const a = testing.allocator;
-        var buf = try a.alloc(u8, 1024);
+        const buf = try a.alloc(u8, 1024);
         defer a.free(buf);
 
         const term = "\\!foo\\ bar\\$\\ ^bax\\ |\\ baz";
